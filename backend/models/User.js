@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 //Creating model for users using mongoose 
+
 const {Schema} = mongoose;
+
 //Creating user schama for the authentication
 const UserSchema = new Schema({
     name:{

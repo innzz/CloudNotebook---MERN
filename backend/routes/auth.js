@@ -2,7 +2,9 @@ const express = require('express');
 const User = require('../models/User');
 const { body, validationResult } = require('express-validator');
 const router = express.Router();
-
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const JWT_SIGN = "inzamamisahandsomeguy";
 
 //Create a user using: POST "/api/auth/createUser". 
 router.post('/createUser',[
@@ -25,13 +27,21 @@ router.post('/createUser',[
         return res.status(400).json({error:"Sorry the user with same email already exists"});
     }
 
+    const salt = await  bcrypt.genSalt(10);
+    const secPass = await bcrypt.hash(req.body.password,salt);
+
     //Creating users from Users Module
         users = await User.create({
         name: req.body.name,
         email: req.body.email,
-        password: req.body.password,
+        password: secPass,
       })
-      res.json(users);
+      const data = {
+          user: users.id
+      }
+      const authToken = jwt.sign(data, JWT_SIGN);
+    //   res.json(users);
+        res.json({authToken});
       //If there will be any error in syntax it will cath it and show it on console
     } catch (error) {
         console.log(error.message);
