@@ -24,5 +24,5 @@ app.use('/api/notes',require('./routes/notes'))
 
 //This will show on which port our app is hosting
 app.listen(port, () => {
-  console.log(`Example app listening on port http://localhost:${port}`)
+  console.log(`CloudNotebook backend listening on port http://localhost:${port}`)
 })
