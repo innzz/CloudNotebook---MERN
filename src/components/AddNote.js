@@ -8,7 +8,7 @@ function AddNote() {
 
     const handleAddNote = (e)=>{
         e.preventDefault();
-        addNote(note);
+        addNote(note.title,note.description,note.tag);
     };
 
     const onChange = (e)=>{
@@ -25,6 +25,10 @@ function AddNote() {
         <div className="mb-3">
           <label htmlFor="description" className="form-label">Description</label>
           <input type="text" className="form-control" id="description"onChange={onChange}  name="description"/>
+        </div>
+        <div className="mb-3">
+          <label htmlFor="tag" className="form-label">tag</label>
+          <input type="text" className="form-control" id="tag"onChange={onChange}  name="tag"/>
         </div>
         <button type="submit" className="btn btn-primary" onClick={handleAddNote}>Add</button>
       </form>

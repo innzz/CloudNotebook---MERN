@@ -3,8 +3,7 @@ const JWT_SIGN = "inzamamisahandsomeguy";
 
 //Middle ware to check the auth token of the user
 const fetchuser = (req,res,next)=>{
-    const token = req.header('auth-token');
-
+    const token = req.header('Authorization');
     //if there is no token in the header
     if(!token){
         res.status(401).send({error:"Please authenticate a valid token"});
