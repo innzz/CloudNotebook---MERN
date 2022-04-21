@@ -13,7 +13,7 @@ function NoteItem(props) {
             <div className="card-body py-4">
                 <div className="d-flex justify-content-between">
                 <h5 className="card-title">{title}</h5>
-                <div style={{position:"absolute",right:"0px",top:"4px"}}>
+                <div style={{position:"absolute",right:"0px",top:"0px"}}>
                 <i className="fa-solid fa-trash-can mx-2" onClick={()=>{deleteNode(notes._id)}}></i>
                 <i className="fa-solid fa-file-pen mx-2" onClick={()=>{updateNote(notes)}}></i>
                 </div>

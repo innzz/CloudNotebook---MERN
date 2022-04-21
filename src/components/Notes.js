@@ -4,26 +4,27 @@ import NoteItem from "./NoteItem"
 
 function Notes() {
     const context = useContext(noteContext);
-    const {note,getNotes} = context;
+    const {note,getNotes,editNote} = context;
     useEffect(()=>{
         getNotes();
         // eslint-disable-next-line
     },[]);
 
-    const [updatenote,setUpdateNote] = useState({etitle:"",edescription:"",etag:""});
+    const ref = useRef(null);
+    const refClose = useRef(null);
+    const [updatenote,setUpdateNote] = useState({eid:"",etitle:"",edescription:"",etag:""});
     
     const updateNote = (currentNote)=>{
       ref.current.click();
-      setUpdateNote({etitle: currentNote.title,edescription: currentNote.description,etag: currentNote.tag});
+      setUpdateNote({eid:currentNote._id,etitle: currentNote.title,edescription: currentNote.description,etag: currentNote.tag});
     };
-
-    const ref = useRef(null);
-
-
-
+    
+    
+    
+    
     const handleUpdateNote = (e)=>{
-      console.log("Updating the note",updatenote);
-        e.preventDefault();
+      refClose.current.click();
+      editNote(updatenote.eid,updatenote.etitle,updatenote.edescription,updatenote.etag);
     };
 
     const onChange = (e)=>{
@@ -39,7 +40,7 @@ function Notes() {
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel">Edit Note</h5>
-                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" ref={refClose} className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div className="modal-body">
               <div className="mb-3">
@@ -52,16 +53,19 @@ function Notes() {
                 </div>
                 <div className="mb-3">
                   <label htmlFor="tag" className="form-label">tag</label>
-                  <input type="text" className="form-control" id="etag" value={updatenote.etag} onChange={onChange}  name="teag"/>
+                  <input type="text" className="form-control" id="etag" value={updatenote.etag} onChange={onChange}  name="etag"/>
                 </div>
               </div>
               <div className="modal-footer">
-                <button type="button" className="btn btn-primary" onClick={handleUpdateNote}>Update Note</button>
+                <button type="button" disabled={updatenote.etitle.length < 4|| updatenote.edescription.length < 4 } className="btn btn-primary" onClick={handleUpdateNote}>Update Note</button>
               </div>
             </div>
           </div>
         </div>
     <div className='row'>
+      <div className="container">
+        {note.length === 0 && "No notes to display"}
+      </div>
     {note.map((notes)=>{
         return <NoteItem key={notes._id} updateNote={updateNote} notes={notes}/>
     })}

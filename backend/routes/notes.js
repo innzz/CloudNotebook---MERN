@@ -15,7 +15,6 @@ router.get('/getnotes',fetchuser, async (req,res)=>{
 router.post('/addnote',fetchuser,[
     body('title','Enter atleast 4 letters').isLength({min:4}),
     body('description','Enter atleast 4 letters').isLength({min:4}),
-    body('tag','Enter atleast 4 letters').isLength({min:4})
 ],async (req,res)=>{
     try {
         const {title,description,tag} = req.body;
@@ -44,7 +43,6 @@ router.post('/addnote',fetchuser,[
 router.put('/updatenote/:id',fetchuser,[
     body('title','Enter atleast 4 letters').isLength({min:4}),
     body('description','Enter atleast 4 letters').isLength({min:4}),
-    body('tag','Enter atleast 4 letters').isLength({min:4})
 ],async (req,res)=>{
     try {
         const {title,description,tag} = req.body;

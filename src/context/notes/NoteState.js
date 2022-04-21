@@ -35,12 +35,7 @@ const NoteState = (props)=>{
           },
           body: JSON.stringify({title,description,tag})
         });
-        const noteAdd = {
-          "_id":"kukebfkebfkheygifgef",
-          "title": title,
-          "description": description,
-          "tag": tag,
-        };
+        const noteAdd = await response.json();
         setNote(note.concat(noteAdd));
       }
 
@@ -62,23 +57,28 @@ const NoteState = (props)=>{
         const response = await fetch(`${host}/api/notes/updatenote/${id}`,{
           method: "PUT",
           headers:{
+            'Accept':'application/json',
             'Content-Type':'application/json',
             'Authorization':token
           },
           body: JSON.stringify({title,description,tag})
         });
-        const json = response.json();
-        for (let index = 0; index < note.length; index++) {
-          const element = note[index];
-          if (element._id === id) {
-            element.title = title;
-            element.description = description;
-            element.tag = tag;
+        // const json = response.json();
+        // console.log(json);
+
+        const newNote = JSON.parse(JSON.stringify(note))
+        for (let index = 0; index < newNote.length; index++) {
+          if (newNote[index]._id === id) {
+            newNote[index].title = title;
+            newNote[index].description = description;
+            newNote[index].tag = tag;
+            break;
           }
         }
+        setNote(newNote);
       }
     return (
-        <noteContext.Provider value={{note,addNote,deleteNode,getNotes}}>
+        <noteContext.Provider value={{note,addNote,deleteNode,getNotes,editNote}}>
             {props.children}
         </noteContext.Provider>
     )

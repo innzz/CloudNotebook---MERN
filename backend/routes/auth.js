@@ -58,6 +58,7 @@ router.post('/createUser',[
         body('password','Please write the correct password').exists()
     ],async (req,res)=>{
         const errors = validationResult(req);
+        let success = false
         
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
@@ -74,7 +75,8 @@ router.post('/createUser',[
 
             //If user does not exists
             if(!user){
-                res.status(400).json({error:"Please enter the correct credentials"});
+                success=false;
+                res.status(400).json({success,error:"Please enter the correct credentials"});
             }
 
             //If user exists then checking its password with hashed password
@@ -82,7 +84,8 @@ router.post('/createUser',[
 
             //If password does not match
             if(!comparePass){
-                res.status(400).json({error:"Please enter the correct credentials"});
+                success=false;
+                res.status(400).json({success,error:"Please enter the correct credentials"});
             }
             
             //Creating auth token of user
@@ -91,9 +94,9 @@ router.post('/createUser',[
             }
             //Giving sign to the authtoken
             const authToken = jwt.sign(data, JWT_SIGN);
-            
+            success=true;
             //Sending user's authtoken
-            res.json({authToken});
+            res.json({success,authToken});
             
         } catch (error) {
             console.log(error.message);
