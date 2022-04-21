@@ -9,14 +9,16 @@ const fetchuser = require('../middleware/fetchuser');
 
 //Create a user using: POST "/api/auth/createUser". 
 router.post('/createUser',[
-    body('name', 'Enter min 7 letters').isLength({ min:4}),
+    body('name', 'Enter min 4 letters').isLength({ min:4}),
     body('email','Enter a valid email').isEmail(),
     body('password','Password must be 4 letters').isLength({min:4})
 ],async (req,res)=>{
+    let success=false
     // If there are errors, return Bad requests and errors 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        success=false;
+        return res.status(400).json({ success,errors: errors.array() });
     }
     
     try {
@@ -25,7 +27,8 @@ router.post('/createUser',[
 
     //if current user email exists already then it will give error
     if(user){
-        return res.status(400).json({error:"Sorry the user with same email already exists"});
+        success=false;
+        return res.status(400).json({success,error:"Sorry the user with same email already exists"});
     }
 
     const salt = await  bcrypt.genSalt(10);
@@ -41,8 +44,9 @@ router.post('/createUser',[
           user: user.id
       }
       const authToken = jwt.sign(data, JWT_SIGN);
+      success=true;
     //   res.json(user);
-        res.json({authToken});
+        res.json({success,authToken});
       //If there will be any error in syntax it will cath it and show it on console
     } catch (error) {
         console.log(error.message);

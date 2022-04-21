@@ -2,12 +2,15 @@ import React,{useContext,useEffect,useRef,useState} from 'react';
 import noteContext from '../context/notes/noteContext';
 import NoteItem from "./NoteItem"
 
-function Notes() {
+function Notes(props) {
     const context = useContext(noteContext);
     const {note,getNotes,editNote} = context;
+    const {changeProgress} = props;
     useEffect(()=>{
+      changeProgress(50);
         getNotes();
         // eslint-disable-next-line
+        changeProgress(100);
     },[]);
 
     const ref = useRef(null);
@@ -22,7 +25,7 @@ function Notes() {
     
     
     
-    const handleUpdateNote = (e)=>{
+    const handleUpdateNote = ()=>{
       refClose.current.click();
       editNote(updatenote.eid,updatenote.etitle,updatenote.edescription,updatenote.etag);
     };

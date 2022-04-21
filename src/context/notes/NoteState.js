@@ -9,7 +9,7 @@ const NoteState = (props)=>{
 
 
       const [note,setNote] = useState(notes);
-
+      
       const getNotes = async ()=>{
         const response = await fetch(`${host}/api/notes/getnotes`,{
           method: "GET",
