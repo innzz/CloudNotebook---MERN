@@ -30,6 +30,7 @@ function Signup(props) {
   };
   return (
     <div className='container'>
+      <h1>Create an Account to use cloudNotebook</h1>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
             <label htmlFor="name" className="form-label">Name</label>

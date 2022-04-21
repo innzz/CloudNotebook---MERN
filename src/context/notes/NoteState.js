@@ -5,7 +5,7 @@ const NoteState = (props)=>{
   const host = "http://localhost:5000";
     const notes = [];
 
-      const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjI2MDNhYjUyYTFiNWE4MTE1OGU4MDg5IiwiaWF0IjoxNjUwNDczNjg3fQ.NGLN0DNJMjJIMrkO3mvma4SnffSpXckYUdMCHjXU_48";
+      const token = localStorage.getItem('token');
 
 
       const [note,setNote] = useState(notes);
